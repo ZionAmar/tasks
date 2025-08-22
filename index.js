@@ -20,7 +20,8 @@ app.post('/t',(req,res)=>{
         return res.status(400).json({message:"אין טקסט"})
     }
     let id = nextID++;
-    let task = {id,text};
+    let isDone = false;
+    let task = {id,text,isDone};
     tasks[id] = task;
     res.status(201).json({message:"ok"})
 })
@@ -47,12 +48,14 @@ app.patch('/t/:id',(req,res)=>{
     if(id < 0 || id > tasks.length || tasks[id] == null){
         return res.status(400).json({message:"אינו קיים"})
     }
-    let text = req.body.txt;
-    if(!text){
-        return res.status(400).json({message:"אין טקסט"})
+    let isDone = req.body.isDone;
+    if(isDone != undefined){
+        tasks[id].isDone = isDone;
     }
-    let obj = tasks[id];
-    obj.text = text;
+    let text = req.body.txt;
+    if(text){
+        tasks[id].text = text;
+    }
     res.json(tasks[id])
 })
 
