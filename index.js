@@ -34,4 +34,12 @@ app.delete('/t/:id',(req,res)=>{
     res.status(200).json({message:"Delete!"})
 })
 
+app.get('/t/:id',(req,res)=>{
+    let id = req.params.id;
+    if(id < 0 || id > tasks.length || tasks[id] == null){
+        return res.status(400).json({message:"אינו קיים"})
+    }
+    res.json(tasks[id])
+})
+
 app.listen(port,()=>{console.log(`http://localhost:${port}`)});
