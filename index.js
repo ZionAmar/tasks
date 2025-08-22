@@ -42,4 +42,18 @@ app.get('/t/:id',(req,res)=>{
     res.json(tasks[id])
 })
 
+app.patch('/t/:id',(req,res)=>{
+    let id = req.params.id;
+    if(id < 0 || id > tasks.length || tasks[id] == null){
+        return res.status(400).json({message:"אינו קיים"})
+    }
+    let text = req.body.txt;
+    if(!text){
+        return res.status(400).json({message:"אין טקסט"})
+    }
+    let obj = tasks[id];
+    obj.text = text;
+    res.json(tasks[id])
+})
+
 app.listen(port,()=>{console.log(`http://localhost:${port}`)});
