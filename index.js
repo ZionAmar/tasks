@@ -15,8 +15,11 @@ app.get('/t',(req,res)=>{
 })
 
 app.post('/t',(req,res)=>{
+    let text = req.body.txt;    
+    if(!text){
+        return res.status(400).json({message:"אין טקסט"})
+    }
     let id = nextID++;
-    let text = req.body.txt;
     let task = {id,text};
     tasks[id] = task;
     res.status(201).json({message:"ok"})
