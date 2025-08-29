@@ -72,10 +72,12 @@
             }
             async function deleteTask(id) {
                 try{
-                    let response = await fetch(`/t/${id}`,{
-                        method: 'DELETE'
-                    })
-                    getData();
+                    if(confirm("האם למחוק")){
+                        let response = await fetch(`/t/${id}`,{
+                            method: 'DELETE'
+                        })
+                        getData();
+                    }
                 }catch(err){
                     alert(err);
                 }
