@@ -7,6 +7,13 @@
 </head>
 <body>
     <h1>To Do List</h1>
+    <div>
+        <label for="txt">Text:</label>
+        <br>
+        <textarea id="txt" maxlength="50"></textarea>
+        <button onclick="addTask()">Send</button>
+    </div>
+    <hr>
     <table border="1">
         <thead>
             <tr>
@@ -18,6 +25,52 @@
             </tr>
         </thead>
         <tbody id="myTable"></tbody>
+        <script>
+            async function getData() {
+                let response = await fetch('/t',{
+                    method:'GET'
+                });
+                let data = await response.json();
+                createTable(data);
+            }
+            function createTable(data){
+                let txt = "";
+                for(obj of data){
+                    if(obj){
+                        txt += `<tr>`;
+                        txt += `<td>${obj.id}</td>`;
+                        txt += `<td>${obj.text}</td>`;
+                        txt += `<td>${obj.isDone}</td>`;
+                        txt += `<td><button>✏️</button></td>`;
+                        txt += `<td><button>🗑️</button></td>`;
+                        txt += `</tr>`;
+                    }                    
+                }
+                document.getElementById('myTable').innerHTML = txt;
+            }
+            async function addTask() {
+                try{
+                    let txt = document.getElementById('txt').value;
+                    let response = await fetch('/t',{
+                        method: 'POST',
+                        headers: {'Content-type':'application/json'},
+                        body: JSON.stringify({txt})
+                    })
+                    // if(response.ok){
+                    //     alert("נוסף בהצלחה")
+                    // }
+                    if(response.status == 201){
+                        alert("נוסף בהצלחה")
+                    }
+                    getData();
+                    document.getElementById('txt').value = "";
+                }catch(err){
+                    alert(err);
+                }
+
+            }
+            getData();
+        </script>
     </table>
 </body>
 </html>
