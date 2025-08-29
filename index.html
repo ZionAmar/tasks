@@ -42,7 +42,7 @@
                         txt += `<td>${obj.text}</td>`;
                         txt += `<td>${obj.isDone}</td>`;
                         txt += `<td><button>✏️</button></td>`;
-                        txt += `<td><button>🗑️</button></td>`;
+                        txt += `<td><button onclick="deleteTask(${obj.id})">🗑️</button></td>`;
                         txt += `</tr>`;
                     }                    
                 }
@@ -68,6 +68,16 @@
                     alert(err);
                 }
 
+            }
+            async function deleteTask(id) {
+                try{
+                    let response = await fetch(`/t/${id}`,{
+                        method: 'DELETE'
+                    })
+                    getData();
+                }catch(err){
+                    alert(err);
+                }
             }
             getData();
         </script>
