@@ -1,7 +1,9 @@
 const express = require('express');
 const app = express();
 const port = 5000;
+const path = require('path');
 app.use(express.json());
+app.use(express.static(path.join(__dirname)));
 
 const tasks = [];
 let nextID = 1;
@@ -28,7 +30,7 @@ app.post('/t',(req,res)=>{
 
 app.delete('/t/:id',(req,res)=>{
     let id = req.params.id;
-    if(id < 0 || tasks.length < id){
+    if(id < 0 || tasks.length < id || tasks[id]==null){
         return res.status(400).json({message:"אינו קיים"})
     }
     tasks[id] = null;
