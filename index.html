@@ -20,6 +20,7 @@
         <button onclick="addOrEdit()">Send</button>
     </div>
     <hr>
+    <input id="search" placeholder="Search..." oninput="sortTable()">
     <table border="1">
         <thead>
             <tr>
@@ -33,11 +34,12 @@
         </thead>
         <tbody id="myTable"></tbody>
         <script>
+            let data = [];
             async function getData() {
                 let response = await fetch('/t',{
                     method:'GET'
                 });
-                let data = await response.json();
+                data = await response.json();
                 createTable(data);
             }
             function createTable(data){
@@ -69,9 +71,9 @@
                     // if(response.ok){
                     //     alert("נוסף בהצלחה")
                     // }
-                    if(response.status == 201){
-                        alert("נוסף בהצלחה")
-                    }
+                    // if(response.status == 201){
+                    //     alert("נוסף בהצלחה")
+                    // }
                     getData();
                     document.getElementById('txt').value = "";
                 }catch(err){
@@ -119,7 +121,6 @@
             async function isChecked(element,id) {
                 try{
                     let isDone = element.checked;
-                    console.log(isDone);
                     
                     let response = await fetch(`/t/${id}`,{
                         method: 'PATCH',
@@ -138,6 +139,15 @@
                     editTask(id);
                 }else{
                     addTask();
+                }
+            }
+            function sortTable(){
+                let val = document.getElementById('search').value;
+                let sorted = data.filter(obj=>obj && obj.text.includes(val))
+                if(sorted){
+                    createTable(sorted)
+                }else{
+                    createTable(data)
                 }
             }
             getData();
