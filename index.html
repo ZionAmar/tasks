@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        .rowClass{
+            text-decoration: line-through;
+        }
+    </style>
 </head>
 <body>
     <h1>To Do List</h1>
@@ -18,9 +23,10 @@
     <table border="1">
         <thead>
             <tr>
-                <th>ID</th>
+                <!-- <th>ID</th> -->
+                <th></th>
                 <th>Text</th>
-                <th>IsDone</th>
+                <!-- <th>IsDone</th> -->
                 <th>Edit</th>
                 <th>Delete</th>
             </tr>
@@ -38,10 +44,13 @@
                 let txt = "";
                 for(obj of data){
                     if(obj){
-                        txt += `<tr>`;
-                        txt += `<td>${obj.id}</td>`;
+                        let row = obj.isDone ? "rowClass" : "";
+                        let check = obj.isDone ? "checked" : "";
+                        txt += `<tr class='${row}'>`;
+                        // txt += `<td>${obj.id}</td>`;
+                        txt += `<td><input type="checkbox" ${check}></td>`;
                         txt += `<td>${obj.text}</td>`;
-                        txt += `<td>${obj.isDone}</td>`;
+                        // txt += `<td>${obj.isDone}</td>`;
                         txt += `<td><button onclick="taskById(${obj.id})">✏️</button></td>`;
                         txt += `<td><button onclick="deleteTask(${obj.id})">🗑️</button></td>`;
                         txt += `</tr>`;
